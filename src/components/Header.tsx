@@ -1,52 +1,81 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="bg-cream sticky top-0 z-50 border-b border-light-gray">
-      <div className="max-w-7xl mx-auto px-6 lg:px-20 py-5 flex items-center justify-between">
+    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4">
+      <motion.div
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className={`
+          glass rounded-full px-6 py-3 flex items-center justify-between gap-8
+          transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
+          ${scrolled ? "shadow-lg" : "shadow-sm"}
+        `}
+      >
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 bg-burgundy rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">P</span>
+        <a href="#" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-burgundy rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-xs">P</span>
           </div>
-          <span className="font-[family-name:var(--font-cormorant)] text-2xl font-bold text-burgundy">
+          <span className="font-bold text-xl text-slate-950 tracking-tight">
             PinPal
           </span>
-        </div>
+        </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <a href="#features" className="text-foreground hover:text-burgundy transition-colors font-medium">
+        <nav className="hidden md:flex items-center gap-6">
+          <a
+            href="#features"
+            className="nav-link text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-slate-950 transition-colors"
+          >
             Features
           </a>
-          <a href="#about" className="text-foreground hover:text-burgundy transition-colors font-medium">
-            About
+          <a
+            href="#stats"
+            className="nav-link text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-slate-950 transition-colors"
+          >
+            Stats
           </a>
-          <a href="#contact" className="text-foreground hover:text-burgundy transition-colors font-medium">
+          <a
+            href="#signup"
+            className="nav-link text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-slate-950 transition-colors"
+          >
             Contact
           </a>
         </nav>
 
         {/* CTA Button */}
-        <a
-          href="#signup"
-          className="hidden md:inline-flex bg-burgundy text-white px-6 py-3 rounded-lg font-semibold text-sm hover:bg-burgundy/90 transition-colors"
+        <Button
+          asChild
+          className="hidden md:inline-flex bg-burgundy hover:bg-burgundy/90 text-white rounded-full px-6 py-2 text-sm font-semibold shadow-[0_4px_14px_rgba(139,21,56,0.25)] transition-smooth"
         >
-          Get Early Access
-        </a>
+          <a href="#signup">Get Early Access</a>
+        </Button>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden p-2"
+          className="md:hidden p-2 -mr-2"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
           <svg
-            className="w-6 h-6 text-foreground"
+            className="w-5 h-5 text-slate-950"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -68,30 +97,52 @@ export default function Header() {
             )}
           </svg>
         </button>
-      </div>
+      </motion.div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-cream border-t border-light-gray">
-          <nav className="flex flex-col px-6 py-4 gap-4">
-            <a href="#features" className="text-foreground hover:text-burgundy transition-colors font-medium">
-              Features
-            </a>
-            <a href="#about" className="text-foreground hover:text-burgundy transition-colors font-medium">
-              About
-            </a>
-            <a href="#contact" className="text-foreground hover:text-burgundy transition-colors font-medium">
-              Contact
-            </a>
-            <a
-              href="#signup"
-              className="bg-burgundy text-white px-6 py-3 rounded-lg font-semibold text-sm text-center hover:bg-burgundy/90 transition-colors"
-            >
-              Get Early Access
-            </a>
-          </nav>
-        </div>
-      )}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute top-20 left-4 right-4 glass rounded-2xl p-6 md:hidden"
+          >
+            <nav className="flex flex-col gap-4">
+              <a
+                href="#features"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-slate-950 transition-colors"
+              >
+                Features
+              </a>
+              <a
+                href="#stats"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-slate-950 transition-colors"
+              >
+                Stats
+              </a>
+              <a
+                href="#signup"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-slate-950 transition-colors"
+              >
+                Contact
+              </a>
+              <Button
+                asChild
+                className="bg-burgundy hover:bg-burgundy/90 text-white rounded-full px-6 py-3 text-sm font-semibold mt-2"
+              >
+                <a href="#signup" onClick={() => setMobileMenuOpen(false)}>
+                  Get Early Access
+                </a>
+              </Button>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

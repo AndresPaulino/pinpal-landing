@@ -1,70 +1,150 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Users, BarChart3, WifiOff } from "lucide-react";
+
 const features = [
   {
-    icon: (
-      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-      </svg>
-    ),
-    iconBg: "bg-burgundy",
+    step: "01",
     title: "League & Bowler Management",
-    description: "Create leagues, add bowlers, organize teams, and manage rosters with ease. Everything in one place.",
+    description:
+      "Create leagues, add bowlers, organize teams, and manage rosters with ease. Everything in one place, accessible anywhere.",
+    icon: Users,
+    iconAnimation: "animate-spin-slow",
+    gradient: "from-burgundy/10 to-burgundy/5",
   },
   {
-    icon: (
-      <svg className="w-6 h-6 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-      </svg>
-    ),
-    iconBg: "bg-gold",
+    step: "02",
     title: "Score Tracking & Standings",
-    description: "Enter scores quickly, auto-calculate averages and standings. No more spreadsheets or manual math.",
+    description:
+      "Enter scores quickly, auto-calculate averages and standings. No more spreadsheets or manual math. Real-time updates for everyone.",
+    icon: BarChart3,
+    iconAnimation: "animate-pulse",
+    gradient: "from-gold/10 to-gold/5",
   },
   {
-    icon: (
-      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414" />
-      </svg>
-    ),
-    iconBg: "bg-burgundy",
+    step: "03",
     title: "Works Offline",
-    description: "No wifi at the bowling alley? No problem. Enter scores offline and sync when you're back online.",
+    description:
+      "No wifi at the bowling alley? No problem. Enter scores offline and sync when you're back online. Never lose your data.",
+    icon: WifiOff,
+    iconAnimation: "animate-ping-slow",
+    gradient: "from-burgundy/10 to-gold/5",
   },
 ];
 
-export default function Features() {
+interface FeatureBlockProps {
+  feature: typeof features[0];
+  index: number;
+  reverse?: boolean;
+}
+
+function FeatureBlock({ feature, index, reverse }: FeatureBlockProps) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   return (
-    <section id="features" className="bg-white py-16 lg:py-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-20">
-        {/* Header */}
-        <div className="text-center mb-12 lg:mb-16">
-          <h2 className="font-[family-name:var(--font-cormorant)] text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Everything You Need
-          </h2>
-          <p className="text-gray text-lg max-w-xl mx-auto">
-            Simple tools designed for league secretaries
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 60 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{
+        duration: 1.5,
+        delay: 0.1,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      className={`
+        relative flex flex-col lg:flex-row items-center gap-12 lg:gap-20
+        ${reverse ? "lg:flex-row-reverse" : ""}
+      `}
+    >
+      {/* Step Number Side */}
+      <div className="flex-1 relative flex items-center justify-center lg:justify-end">
+        <span
+          className={`
+            text-[180px] md:text-[240px] font-black leading-none select-none
+            text-transparent bg-clip-text bg-gradient-to-b from-slate-200 to-slate-100
+            ${reverse ? "lg:text-left" : "lg:text-right"}
+          `}
+        >
+          {feature.step}
+        </span>
+      </div>
+
+      {/* Glass Card Side */}
+      <div className="flex-1 w-full max-w-md">
+        <div
+          className={`
+            glass rounded-3xl p-8 md:p-10
+            bg-gradient-to-br ${feature.gradient}
+            transition-smooth hover:shadow-xl
+          `}
+        >
+          {/* Icon */}
+          <div className="w-20 h-20 rounded-2xl bg-white/80 flex items-center justify-center mb-6 shadow-sm">
+            <feature.icon className={`w-10 h-10 text-burgundy ${feature.iconAnimation}`} />
+          </div>
+
+          {/* Content */}
+          <h3 className="text-2xl md:text-3xl font-bold text-slate-950 tracking-tight mb-4">
+            {feature.title}
+          </h3>
+          <p className="text-slate-500 text-lg leading-relaxed">
+            {feature.description}
           </p>
         </div>
+      </div>
+    </motion.div>
+  );
+}
 
-        {/* Feature Cards */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-cream p-8 rounded-2xl border border-light-gray hover:shadow-lg transition-shadow"
-            >
-              <div className={`w-14 h-14 ${feature.iconBg} rounded-xl flex items-center justify-center mb-5`}>
-                {feature.icon}
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-gray leading-relaxed">
-                {feature.description}
-              </p>
-            </div>
-          ))}
+export default function Features() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section id="features" className="relative bg-slate-50 overflow-hidden">
+      {/* Curved Top */}
+      <div className="absolute top-0 left-0 right-0 h-20 bg-white rounded-b-[5rem]" />
+
+      <div className="relative pt-32 pb-24">
+        <div className="max-w-7xl mx-auto px-6 lg:px-20">
+          {/* Section Header */}
+          <motion.div
+            ref={ref}
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-20"
+          >
+            <span className="font-mono text-xs uppercase tracking-[0.3em] text-burgundy mb-4 block">
+              Features
+            </span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-950 tracking-tighter">
+              Everything You Need
+            </h2>
+            <p className="text-lg text-slate-500 mt-4 max-w-xl mx-auto">
+              Simple tools designed for league secretaries who value their time
+            </p>
+          </motion.div>
+
+          {/* Feature Blocks */}
+          <div className="space-y-24 lg:space-y-32">
+            {features.map((feature, index) => (
+              <FeatureBlock
+                key={index}
+                feature={feature}
+                index={index}
+                reverse={index % 2 === 1}
+              />
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* Curved Bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-white rounded-t-[5rem]" />
     </section>
   );
 }

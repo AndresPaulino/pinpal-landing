@@ -1,21 +1,28 @@
 import type { Metadata } from "next";
-import { Inter, Cormorant_Garamond } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
-  variable: "--font-inter",
+  variable: "--font-satoshi",
   subsets: ["latin"],
+  weight: ["400", "500", "700", "900"],
 });
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
   title: "PinPal - Bowling League Management Made Simple",
   description: "The bowling league app built for secretaries who want to spend less time on paperwork and more time enjoying the game. Manage leagues, track scores, and calculate standings with ease.",
+  keywords: ["bowling", "league management", "bowling secretary", "score tracking", "bowling app"],
+  openGraph: {
+    title: "PinPal - Bowling League Management Made Simple",
+    description: "The bowling league app built for secretaries who want to spend less time on paperwork and more time enjoying the game.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${cormorant.variable} antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
         {children}
       </body>

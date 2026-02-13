@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { CheckCircle, ArrowRight } from "lucide-react";
 
 export default function CTA() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,52 +27,93 @@ export default function CTA() {
   };
 
   return (
-    <section id="signup" className="bg-burgundy py-16 lg:py-24">
-      <div className="max-w-3xl mx-auto px-6 lg:px-20 text-center">
-        {/* Headline */}
-        <h2 className="font-[family-name:var(--font-cormorant)] text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-          Be the First to Try PinPal
-        </h2>
+    <section id="signup" className="relative bg-burgundy py-24 lg:py-32 overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+          backgroundSize: '40px 40px',
+        }} />
+      </div>
 
-        {/* Subheadline */}
-        <p className="text-white/90 text-lg mb-8 max-w-xl mx-auto">
-          Join league secretaries getting early access to the MVP. Sign up for updates and be first in line.
-        </p>
+      <div className="relative max-w-4xl mx-auto px-6 lg:px-20">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 60 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center"
+        >
+          {/* Glass Card */}
+          <div className="glass-dark rounded-3xl p-10 md:p-16">
+            {/* Headline */}
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter mb-4">
+              Be the First to
+              <br />
+              <span className="text-gold">Try PinPal</span>
+            </h2>
 
-        {/* Form */}
-        {status === "success" ? (
-          <div className="bg-white/10 rounded-xl p-6 max-w-md mx-auto">
-            <div className="text-white text-lg font-semibold mb-2">
-              You&apos;re on the list!
-            </div>
-            <p className="text-white/80">
-              We&apos;ll let you know when PinPal is ready.
+            {/* Subheadline */}
+            <p className="text-white/80 text-lg md:text-xl mb-10 max-w-xl mx-auto">
+              Join league secretaries getting early access to the MVP. Sign up for updates and be first in line.
             </p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email address"
-              className="flex-1 px-6 py-4 rounded-lg text-foreground placeholder:text-gray focus:outline-none focus:ring-2 focus:ring-gold"
-              required
-            />
-            <button
-              type="submit"
-              disabled={status === "loading"}
-              className="bg-gold text-foreground px-8 py-4 rounded-lg font-semibold hover:bg-gold/90 transition-colors disabled:opacity-70"
-            >
-              {status === "loading" ? "Joining..." : "Get Early Access"}
-            </button>
-          </form>
-        )}
 
-        {/* Trust Line */}
-        <p className="text-white/70 text-sm mt-6">
-          Join 100+ league secretaries on the waitlist
-        </p>
+            {/* Form */}
+            {status === "success" ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center gap-4"
+              >
+                <div className="w-16 h-16 rounded-full bg-gold/20 flex items-center justify-center">
+                  <CheckCircle className="w-8 h-8 text-gold" />
+                </div>
+                <div className="text-white text-xl font-bold">
+                  You&apos;re on the list!
+                </div>
+                <p className="text-white/70">
+                  We&apos;ll let you know when PinPal is ready.
+                </p>
+              </motion.div>
+            ) : (
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto"
+              >
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email address"
+                  className="flex-1 h-14 px-6 rounded-full bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/20 focus:border-gold transition-all"
+                  required
+                />
+                <Button
+                  type="submit"
+                  disabled={status === "loading"}
+                  size="lg"
+                  className="h-14 px-8 bg-gold hover:bg-gold/90 text-slate-950 rounded-full font-semibold transition-smooth disabled:opacity-70 group"
+                >
+                  {status === "loading" ? (
+                    "Joining..."
+                  ) : (
+                    <>
+                      Get Early Access
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </Button>
+              </form>
+            )}
+
+            {/* Trust Line */}
+            {status !== "success" && (
+              <p className="text-white/50 text-sm mt-6">
+                Join 100+ league secretaries on the waitlist
+              </p>
+            )}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

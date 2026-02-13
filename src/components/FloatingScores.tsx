@@ -25,6 +25,12 @@ const bowlingScores = [
   { text: "POCKET", color: "text-gold" },
 ];
 
+// Seeded pseudo-random function for deterministic values
+function seededRandom(seed: number): number {
+  const x = Math.sin(seed * 9999) * 10000;
+  return x - Math.floor(x);
+}
+
 interface FloatingScoreProps {
   text: string;
   color: string;
@@ -32,21 +38,21 @@ interface FloatingScoreProps {
 }
 
 function FloatingScore({ text, color, index }: FloatingScoreProps) {
-  // Generate random position and animation duration
+  // Use deterministic positioning based on index
   const row = Math.floor(index / 5);
   const col = index % 5;
   const baseX = col * 20 + 5; // 5%, 25%, 45%, 65%, 85%
   const baseY = row * 25 + 10; // 10%, 35%, 60%, 85%
 
-  // Add some randomness to positions
-  const randomOffsetX = (Math.random() - 0.5) * 10;
-  const randomOffsetY = (Math.random() - 0.5) * 10;
+  // Use seeded random for consistent values between server and client
+  const offsetX = (seededRandom(index * 3 + 1) - 0.5) * 10;
+  const offsetY = (seededRandom(index * 3 + 2) - 0.5) * 10;
 
-  const x = baseX + randomOffsetX;
-  const y = baseY + randomOffsetY;
+  const x = baseX + offsetX;
+  const y = baseY + offsetY;
 
-  const duration = 15 + Math.random() * 20; // 15-35 seconds
-  const delay = Math.random() * 5;
+  const duration = 15 + seededRandom(index * 3 + 3) * 20; // 15-35 seconds
+  const delay = seededRandom(index * 7) * 5;
 
   return (
     <motion.div

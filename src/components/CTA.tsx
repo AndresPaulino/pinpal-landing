@@ -12,18 +12,34 @@ export default function CTA() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  const [errorMsg, setErrorMsg] = useState("");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email) return;
 
     setStatus("loading");
+    setErrorMsg("");
 
-    // Simulate API call - replace with actual newsletter service integration
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
-    setStatus("success");
-    setEmail("");
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Something went wrong");
+      }
+
+      setStatus("success");
+      setEmail("");
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -104,6 +120,17 @@ export default function CTA() {
                   )}
                 </Button>
               </form>
+            )}
+
+            {/* Error Message */}
+            {status === "error" && (
+              <motion.p
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-300 text-sm mt-4"
+              >
+                {errorMsg}
+              </motion.p>
             )}
 
             {/* Trust Line */}

@@ -74,29 +74,14 @@ export default function Hero() {
             className="flex-1 flex justify-center lg:justify-end w-full max-w-sm lg:max-w-md"
           >
             <div className="relative">
-              {/* Phone Frame */}
-              <div className="relative w-[280px] md:w-[320px] aspect-[9/19] bg-slate-950 rounded-[3rem] p-3 shadow-2xl">
-                {/* Screen */}
-                <div className="w-full h-full bg-gradient-to-b from-burgundy/10 to-gold/10 rounded-[2.5rem] overflow-hidden flex items-center justify-center">
-                  {/* Placeholder Content */}
-                  <div className="text-center p-6">
-                    <Image
-                      src="/images/pinpal_logo.png"
-                      alt="PinPal logo"
-                      width={64}
-                      height={64}
-                      className="mx-auto mb-4 rounded-2xl"
-                    />
-                    <p className="text-slate-500 text-sm font-medium">
-                      App Screenshot
-                      <br />
-                      Coming Soon
-                    </p>
-                  </div>
-                </div>
-                {/* Notch */}
-                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-950 rounded-full" />
-              </div>
+              <Image
+                src="/images/iphone-15-mockups/dashboard_mockup.png"
+                alt="PinPal dashboard on iPhone"
+                width={320}
+                height={650}
+                className="w-[280px] md:w-[320px] drop-shadow-2xl"
+                priority
+              />
 
               {/* Decorative Elements */}
               <div className="absolute -top-4 -right-4 w-20 h-20 bg-gold/20 rounded-full blur-2xl" />

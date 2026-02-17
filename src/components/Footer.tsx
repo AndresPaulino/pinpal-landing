@@ -32,7 +32,7 @@ export default function Footer() {
                 height={40}
                 className="rounded-xl"
               />
-              <span className="font-bold text-2xl text-white tracking-tight">
+              <span className="font-[family-name:var(--font-leckerli)] text-2xl text-white">
                 PinPal
               </span>
             </a>

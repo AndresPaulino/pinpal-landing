@@ -50,7 +50,7 @@ export default function CTA() {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter mb-4">
               Be the First to
               <br />
-              <span className="text-gold">Try PinPal</span>
+              <span className="text-gold">Try <span className="font-[family-name:var(--font-leckerli)]">PinPal</span></span>
             </h2>
 
             {/* Subheadline */}

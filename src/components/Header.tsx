@@ -38,7 +38,7 @@ export default function Header() {
               height={32}
               className="rounded-lg"
             />
-          <span className="font-bold text-xl text-slate-950 tracking-tight">
+          <span className="font-[family-name:var(--font-leckerli)] text-xl text-slate-950">
             PinPal
           </span>
         </a>

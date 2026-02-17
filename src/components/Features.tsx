@@ -3,39 +3,43 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Users, BarChart3, WifiOff } from "lucide-react";
+import Image from "next/image";
 
 const features = [
   {
-    step: "01",
     title: "League & Bowler Management",
     description:
       "Create leagues, add bowlers, organize teams, and manage rosters with ease. Everything in one place, accessible anywhere.",
     icon: Users,
     iconAnimation: "animate-spin-slow",
     gradient: "from-burgundy/10 to-burgundy/5",
+    mockup: "/images/iphone-15-mockups/league-management-left.png",
+    mockupAlt: "PinPal league management screen",
   },
   {
-    step: "02",
     title: "Score Tracking & Standings",
     description:
       "Enter scores quickly, auto-calculate averages and standings. No more spreadsheets or manual math. Real-time updates for everyone.",
     icon: BarChart3,
     iconAnimation: "animate-pulse",
     gradient: "from-gold/10 to-gold/5",
+    mockup: "/images/iphone-15-mockups/score-tracking-left.png",
+    mockupAlt: "PinPal frame-by-frame score entry screen",
   },
   {
-    step: "03",
     title: "Works Offline",
     description:
       "No wifi at the bowling alley? No problem. Enter scores offline and sync when you're back online. Never lose your data.",
     icon: WifiOff,
     iconAnimation: "animate-ping-slow",
     gradient: "from-burgundy/10 to-gold/5",
+    mockup: "/images/iphone-15-mockups/stats-analytics-left.png",
+    mockupAlt: "PinPal stats and analytics screen",
   },
 ];
 
 interface FeatureBlockProps {
-  feature: typeof features[0];
+  feature: (typeof features)[0];
   index: number;
   reverse?: boolean;
 }
@@ -59,18 +63,25 @@ function FeatureBlock({ feature, index, reverse }: FeatureBlockProps) {
         ${reverse ? "lg:flex-row-reverse" : ""}
       `}
     >
-      {/* Step Number Side */}
-      <div className="flex-1 relative flex items-center justify-center lg:justify-end">
-        <span
-          className={`
-            text-[180px] md:text-[240px] font-black leading-none select-none
-            text-transparent bg-clip-text bg-gradient-to-b from-slate-200 to-slate-100
-            ${reverse ? "lg:text-left" : "lg:text-right"}
-          `}
-        >
-          {feature.step}
-        </span>
-      </div>
+      {/* Mockup Side */}
+      <motion.div
+        initial={{ opacity: 0, x: reverse ? 40 : -40 }}
+        animate={isInView ? { opacity: 1, x: 0 } : {}}
+        transition={{
+          duration: 1.5,
+          delay: 0.3,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+        className="flex-1 relative flex items-center justify-center"
+      >
+        <Image
+          src={feature.mockup}
+          alt={feature.mockupAlt}
+          width={300}
+          height={600}
+          className="w-[220px] md:w-[260px] drop-shadow-2xl"
+        />
+      </motion.div>
 
       {/* Glass Card Side */}
       <div className="flex-1 w-full max-w-md">

@@ -21,9 +21,13 @@ const leckerliOne = Leckerli_One({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://pinpal.app"),
   title: "PinPal - Bowling League Management Made Simple",
   description: "The bowling league app built for secretaries who want to spend less time on paperwork and more time enjoying the game. Manage leagues, track scores, and calculate standings with ease.",
   keywords: ["bowling", "league management", "bowling secretary", "score tracking", "bowling app"],
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/images/pinpal_logo.png",
     apple: "/images/pinpal_logo.png",
@@ -31,7 +35,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: "PinPal - Bowling League Management Made Simple",
     description: "The bowling league app built for secretaries who want to spend less time on paperwork and more time enjoying the game.",
+    url: "https://pinpal.app",
+    siteName: "PinPal",
     type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PinPal - Bowling League Management Made Simple",
+    description: "The bowling league app built for secretaries who want to spend less time on paperwork and more time enjoying the game.",
   },
 };
 

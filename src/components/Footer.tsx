@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 
 export default function Footer() {
   const ref = useRef(null);
@@ -24,9 +25,13 @@ export default function Footer() {
           {/* Logo & Tagline */}
           <div className="flex flex-col items-center md:items-start gap-4">
             <a href="#" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-burgundy rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-sm">P</span>
-              </div>
+              <Image
+                src="/images/pinpal_logo.png"
+                alt="PinPal logo"
+                width={40}
+                height={40}
+                className="rounded-xl"
+              />
               <span className="font-bold text-2xl text-white tracking-tight">
                 PinPal
               </span>

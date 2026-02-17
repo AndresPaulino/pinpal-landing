@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -30,9 +31,13 @@ export default function Header() {
       >
         {/* Logo */}
         <a href="#" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-burgundy rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-xs">P</span>
-          </div>
+          <Image
+              src="/images/pinpal_logo.png"
+              alt="PinPal logo"
+              width={32}
+              height={32}
+              className="rounded-lg"
+            />
           <span className="font-bold text-xl text-slate-950 tracking-tight">
             PinPal
           </span>

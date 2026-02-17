@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import FloatingScores from "./FloatingScores";
 import { ChevronDown } from "lucide-react";
+import Image from "next/image";
 
 export default function Hero() {
   return (
@@ -79,9 +80,13 @@ export default function Hero() {
                 <div className="w-full h-full bg-gradient-to-b from-burgundy/10 to-gold/10 rounded-[2.5rem] overflow-hidden flex items-center justify-center">
                   {/* Placeholder Content */}
                   <div className="text-center p-6">
-                    <div className="w-16 h-16 mx-auto mb-4 bg-burgundy/20 rounded-2xl flex items-center justify-center">
-                      <span className="text-burgundy text-2xl font-bold">P</span>
-                    </div>
+                    <Image
+                      src="/images/pinpal_logo.png"
+                      alt="PinPal logo"
+                      width={64}
+                      height={64}
+                      className="mx-auto mb-4 rounded-2xl"
+                    />
                     <p className="text-slate-500 text-sm font-medium">
                       App Screenshot
                       <br />
